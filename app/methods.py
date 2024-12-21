@@ -32,4 +32,44 @@ def user_register(nombre, email, telefono, password):
     'telefono': telefono
   }, 200
 
+def user_login(correo, password):
+  
+  # Tenemos que verificar que el usuario al que se está intentando loggear, existe
+
+  # En mi BD se va buscar por el correo que el cliente haya mandado
+  usuario_existente = User.query.filter_by(email=correo).first()
+
+  # Esto regresa uno de dos valores
+
+  # 1. Si encontró una coincidencia, entonces no las muestra
+
+  # 2. Si no encontró nada. None
+
+ #---------------------------------------------------------------------
+
+  # Esta condicional determina si mi usuario está registrado en la DB
+  if usuario_existente is None:
+    # Si el correo no está registrado en mi DB, arrojamos un error
+    return {'Status': 'El correo o la contraseña están mal :( '}, 400
+
+  # Verificamos que la contraseña coincida con la que está en la DB (True o False)
+  elif usuario_existente.verificar_password(password = password):
+
+    # Definimos un tiempo de caducidad para el token
+    caducidad = timedelta(minutes=2)
+
+    # Le creamos un token de acceso
+    token_acceso = create_access_token(identity=usuario_existente.nombre, expires_delta=caducidad)
+
+    # Retornamos el mensaje "sesión iniciada"
+    # El token que generamos
+    return {
+      'Status': 'Sesión iniciada', 
+      'Token': token_acceso
+    }, 200
+
+  # Si no coincide, entonces le arrojamos un error al usuario
+  else:
+    return {'Status': 'El correo o la contraseña están mal :('}, 400
+
 

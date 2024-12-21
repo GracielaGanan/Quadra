@@ -10,8 +10,7 @@ class Registro(Resource):
         respuesta, status = user_register(
             user_info.get('nombre'),
             user_info.get('correo'),
-            user_info.get('telefono'),
-            user_info.get('password')
+       
         )
         return respuesta, status
 
@@ -33,10 +32,10 @@ class Restringido(Resource):
 # Simplemente se va a encargar de darle rutas a mis recursos
 class APIRoutes:
     def init_api(self, api):
-    api.add_resource(HolaMundo, '/')
-    api.add_resource(Registro, '/registro')
-    api.add_resource(Login, '/login')
-    api.add_resource(Restringido, '/restringido')
+        api.add_resource(HolaMundo, '/')
+        api.add_resource(Registro, '/registro')
+        api.add_resource(Login, '/login')
+        api.add_resource(Restringido, '/restringido')
 
     APIRoutes = Blueprint('api', __name__)
     api = Api(APIRoutes)

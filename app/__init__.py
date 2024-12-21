@@ -7,7 +7,7 @@ from .config import Config
 from flask_jwt_extended.exceptions import NoAuthorizationError, InvalidHeaderError
 from .extensions import db, jwt
 
-def configurar_app():
+def create_app():
     # Inicializa la aplicación Flask
     app = Flask(__name__)
 
